@@ -1,7 +1,14 @@
 const yfin = require('./yfin')
 
-const task = async (symbol, startDateTime, endDateTime) => {
-    const ticks = await yfin.tickTradesMinutes(symbol, startDateTime, endDateTime)    
+const tasker = (dbInstance) => {
+    return {
+        task: async (symbol, startDateTime, endDateTime) => {
+            const ticks = await yfin.tickTradesMinutes(symbol, startDateTime, endDateTime)
+            await dbInstance.insertTicks(ticks)
+        }
+    }
+}
 
-    
+module.exports = {
+    tasker
 }

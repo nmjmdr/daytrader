@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "db-migrate": "^0.11.12",
+    "pg": "^8.6.0",
+    "pg-promise": "^10.10.1",
     "ramda": "^0.27.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"

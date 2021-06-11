@@ -2,6 +2,7 @@ const requestPromise = require('request-promise')
 const rp = require('request-promise')
 const R = require('ramda')
 const MaxDaysForMinInterval = 7
+const U = require('../utils')
 
 const baseUrl = 'https://query1.finance.yahoo.com/v8/finance/chart'
 
@@ -46,13 +47,19 @@ const parseResponse = (r) => {
 // start date time, time starts at 9
 // end date time, time ends at 12 am, or less
 const tickTradesMinutes = async(symbol,startDateTime,endDateTime) => {
-    if(msToDays(endDateTime - startDateTime) > MaxDaysForMinInterval) {
+    if(U.msToDays(endDateTime - startDateTime) > MaxDaysForMinInterval) {
         throw new Error("cannot be greater than 7 days")
     }
     const start = startDateTime.getTime()
     const end = endDateTime.getTime()
-    const response = await request(symbol,'1m',Math.floor(start/1000),Math.floor(end/1000))
-    return parseResponse(response)
+    let response
+    try{
+        response = await request(symbol,'1m',Math.floor(start/1000),Math.floor(end/1000))
+        return parseResponse(response)
+    }catch(err) {
+        console.log(`Unable to make request for ${symbol} ${err.message}`,)
+        return null
+    }
 }
 
 module.exports = {

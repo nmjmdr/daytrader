@@ -17,7 +17,7 @@
  const defaultToNull = defaultTo(null)
 
  const recordize = (ticks) => {
-    ticks.ts.map((t,index)=>{
+    return ticks.ts.map((t,index)=>{
         return {
             symbol: ticks.symbol,
             ts: t,
@@ -31,6 +31,20 @@
  }
 
 
+ const generateValuesString = (ts, numColumns) => {
+    var index = 1
+    var acc = []
+    for(i=0;i<ts.length;i++) {
+        var line = []
+        for(pos=0;pos<numColumns;pos++) {
+            line.push(`${index}`)
+            index = index+1
+        }
+        acc.push(`(${line.join(",")})`)
+    }
+    return acc.join(", ")
+ }
+
  module.exports = {
-     recordize
+     recordize,
  }
